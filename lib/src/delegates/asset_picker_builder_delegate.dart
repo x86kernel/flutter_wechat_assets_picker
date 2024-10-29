@@ -2064,7 +2064,16 @@ class DefaultAssetPickerBuilderDelegate
     final double indicatorSize = context.mediaQuery.size.width / gridCount / 3;
     return Positioned.fill(
       child: GestureDetector(
-        onTap: isPreviewEnabled ? () => viewAsset(context, index, asset) : null,
+        //onTap: isPreviewEnabled ? () => viewAsset(context, index, asset) : null,
+        onTap: () {
+          final DefaultAssetPickerProvider provider =
+              context.read<DefaultAssetPickerProvider>();
+
+          final int index = provider.selectedAssets.indexOf(asset);
+          final bool selected = index != -1;
+
+          selectAsset(context, asset, index, selected);
+        },
         child: Consumer<DefaultAssetPickerProvider>(
           builder: (_, DefaultAssetPickerProvider p, __) {
             final int index = p.selectedAssets.indexOf(asset);
